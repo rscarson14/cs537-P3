@@ -17,6 +17,7 @@ void* mem_ptr;
 long region_size;
 unsigned char* m_bitmap;
 unsigned int reserved_bytes;
+int avail_mem, total_bits;
 
 // Initializes the free chunk of memory to be used during allocation
 int Mem_Init(int size){
@@ -36,6 +37,7 @@ int Mem_Init(int size){
     num_pages++;
   }
   region_size = num_pages*pg_size;
+  printf("Intitial region size = %ld\n", region_size);
 
   // Map the required amount of memory
   fd_zero = open("/dev/zero", O_RDWR);
@@ -63,20 +65,27 @@ int Mem_Init(int size){
 
   // First I see how many bytes I will need to satisfy the entire request
   reserved_bytes = region_size / (BLOCK_SIZE * 8);
-  
+  printf("initial reserved bytes = %d\n", reserved_bytes);
+
   // Then I recalculate the region_size as if I had max space (e.g. no header)
   region_size = region_size - reserved_bytes;
-  
-  // Finally I recalulate how many reserved bytes I'll need. This causes some waste,
-  // but not too much.
-  reserved_bytes = region_size / (BLOCK_SIZE * 8);
-  if((region_size % (BLOCK_SIZE * 8)) > 0) { region_size++; }
-  
-  // I allocate the bitmap array here and increment the main mem_ptr to point to
-  // the end of the array.
+  printf("final region size = %ld\n", region_size);
+
   printf("*Init* mem_ptr = %p\n", mem_ptr);
   m_bitmap = (unsigned char*) mem_ptr;
+  avail_mem = region_size;
   mem_ptr += reserved_bytes;
+  // Finally I recalulate how many reserved bytes I'll need. This causes some waste,
+  // but not too much.
+  //  reserved_bytes = region_size / (BLOCK_SIZE * 8);
+  printf("final reserved bytes = %d\n", reserved_bytes);
+  total_bits = region_size/BLOCK_SIZE;
+  printf("total_bits = %d\n", total_bits);
+  // if((region_size % (BLOCK_SIZE * 8)) > 0) { reserved_bytes++; }
+  printf("adjusted final region size = %ld\n", region_size);  
+ 
+  // I allocate the bitmap array here and increment the main mem_ptr to point to
+  // the end of the array.
   printf("*Init* mem_ptr = %p\n", mem_ptr);
   memset(m_bitmap, 0, reserved_bytes);
 
@@ -104,18 +113,20 @@ void* Mem_Alloc(int size){
   for(i = 0; i < reserved_bytes; i++){
     tmp_ptr += i;
     for(k = 0; k < 8; k++){
-      
-      if( SHIFTL(0x01,k) & *tmp_ptr ){
+      if((i*8 + k) >= total_bits){ goto DONE_LOOPING; }
+      else if( SHIFTL(0x01,k) & *tmp_ptr ){
 	continue;
       }
       else{
 	*tmp_ptr = *tmp_ptr | SHIFTL(0x01,k);
 	ret_ptr = mem_ptr + (((i * 8) + k) * BLOCK_SIZE);
+	avail_mem -= BLOCK_SIZE;
 	return ret_ptr;
       }
     }
   }
 
+ DONE_LOOPING:
   return NULL;
 }
 
@@ -136,13 +147,16 @@ int Mem_Free(void* ptr){
 
   tmp_ptr = m_bitmap + i;
   *tmp_ptr = *tmp_ptr & ~SHIFTL(0x01,k);
-
+  
+  avail_mem += BLOCK_SIZE;
+  
   return 0;
 }
 
 // Return the number of bytes left that can be allocated (this number won't include overhead)
 int Mem_Available(){
-
+  
+  /*
   int i, k, counter;
   unsigned char* tmp_ptr;
 
@@ -164,14 +178,39 @@ int Mem_Available(){
 	counter += 16;
       }
     }
-  }
+    }*/
 
-  return counter;
+  return avail_mem;
 }
 
 // Print out contents of heap
 void Mem_Dump(){
-  printf("TODO\n");
+  //printf("TODO\n");
+  
+  int i,k;
+  unsigned char* tmp_ptr;
+  
+  tmp_ptr = m_bitmap;
+
+  for(i = 0; i < reserved_bytes; i++){
+    tmp_ptr += i;
+    printf("%p: ", tmp_ptr);
+    for(k = 0; k < 8; k++){
+      if((i*8 + k) >= total_bits){ goto DONE_LOOPING; }
+      if( SHIFTL(0x01,k) & *tmp_ptr ){
+	printf("1");
+      }
+      else{
+	printf("0");
+      }
+    }
+    printf("\n");
+  }
+
+ DONE_LOOPING:
+  printf("\n");
+  return;
+
 }
 
 
