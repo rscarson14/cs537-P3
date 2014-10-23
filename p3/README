@@ -1,0 +1,25 @@
+Here are the instructions for testing p3.
+
+Copy the script 'runtests' into your project directory:
+   cp ~cs354-3/ta/p3/UserScripts/runtests .
+
+Run runtests from within your project directory to run all the tests:
+   ./runtests
+
+The script will generate two files:
+runtests.log: This is the log file
+grade.txt   : This file indicates your grade
+ 
+Give test names as arguments to run specific tests.
+Example:
+   ./runtests init_bestfit
+   ./runrests init_worstfit
+   ./runtests init_bestfit alloc_bestfit
+
+The source code of the tests can be found at ~cs354-3/ta/p3/UserScripts and ~cs354-3/ta/p3/UserScripts/tests
+
+NOTE:
+-The test should be run on the mumble lab computers. If you want to use the mumble machines remotely, refer to the CSL documentation on how to use ssh and scp.
+-Remember to use -m32 with all gcc comands in your Makefile.
+-To stop the tests early, press CTRL-C.
+-The last three tests (random5_bestfit, random5_worstfit and random5_firstfit) may run for a few minutes before completion and are unlikely to pass unless you have the remaining tests passing. So you might want to defer (hint: use CTRL-C) running these until you get the remaining tests passing.

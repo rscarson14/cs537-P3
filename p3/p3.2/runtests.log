@@ -1,0 +1,1423 @@
+
+**********************************************************************
+
+Test build
+build project using make
+
+**********************************************************************
+Trying to clean project using make clean
+make clean
+rm *.o
+rm *.so
+rm random
+Trying to build project using make
+make
+gcc -c -fpic mem.c -m32
+gcc -shared -o libmem.so mem.o -m32
+gcc random.c -lmem -L. -o random -m32
+
+
+test build PASSED
+ (build project using make)
+
+
+**********************************************************************
+
+Test init_bestfit
+call Mem_Init with size = 1 page and policy = P_BESTFIT
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_bestfit
+
+
+test init_bestfit PASSED
+ (call Mem_Init with size = 1 page and policy = P_BESTFIT)
+
+
+**********************************************************************
+
+Test init_worstfit
+call Mem_Init with size = 5 pages and policy = P_WORSTFIT
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_worstfit
+
+
+test init_worstfit PASSED
+ (call Mem_Init with size = 5 pages and policy = P_WORSTFIT)
+
+
+**********************************************************************
+
+Test init_firstfit
+call Mem_Init with size = 10 pages and policy = P_FIRSTFIT
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_firstfit
+
+
+test init_firstfit PASSED
+ (call Mem_Init with size = 10 pages and policy = P_FIRSTFIT)
+
+
+**********************************************************************
+
+Test init_pageround
+init that should be rounded up to 1 page
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_pageround
+
+
+test init_pageround PASSED
+ (init that should be rounded up to 1 page)
+
+
+**********************************************************************
+
+Test init_zerosize
+call Mem_Init with zero size
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_zerosize
+invalid sizeOfRegion
+: Success
+
+
+test init_zerosize PASSED
+ (call Mem_Init with zero size)
+
+
+**********************************************************************
+
+Test init_negsize
+call Mem_Init with negative size
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_negsize
+invalid sizeOfRegion
+: Success
+
+
+test init_negsize PASSED
+ (call Mem_Init with negative size)
+
+
+**********************************************************************
+
+Test init_negpolicy
+call Mem_Init with a negative policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_negpolicy
+bad policy
+: Success
+
+
+test init_negpolicy PASSED
+ (call Mem_Init with a negative policy)
+
+
+**********************************************************************
+
+Test init_badpolicy
+call Mem_Init with an invalid positive policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_badpolicy
+bad policy
+: Success
+
+
+test init_badpolicy PASSED
+ (call Mem_Init with an invalid positive policy)
+
+
+**********************************************************************
+
+Test init_twice
+call Mem_Init twice
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/init_twice
+Mem_Init already called
+: Success
+
+
+test init_twice PASSED
+ (call Mem_Init twice)
+
+
+**********************************************************************
+
+Test alloc_bestfit
+a simple 8 byte allocation with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc_bestfit
+
+
+test alloc_bestfit PASSED
+ (a simple 8 byte allocation with bestfit policy)
+
+
+**********************************************************************
+
+Test alloc_worstfit
+a simple 8 byte allocation with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc_worstfit
+
+
+test alloc_worstfit PASSED
+ (a simple 8 byte allocation with worstfit policy)
+
+
+**********************************************************************
+
+Test alloc_firstfit
+a simple 8 byte allocation with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc_firstfit
+
+
+test alloc_firstfit PASSED
+ (a simple 8 byte allocation with firstfit policy)
+
+
+**********************************************************************
+
+Test alloc_nospace_bestfit
+allocation is too big to fit for bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc_nospace_bestfit
+
+
+test alloc_nospace_bestfit PASSED
+ (allocation is too big to fit for bestfit policy)
+
+
+**********************************************************************
+
+Test alloc_nospace_worstfit
+allocation is too big to fit for worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc_nospace_worstfit
+
+
+test alloc_nospace_worstfit PASSED
+ (allocation is too big to fit for worstfit policy)
+
+
+**********************************************************************
+
+Test alloc_nospace_firstfit
+allocation is too big to fit for firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc_nospace_firstfit
+
+
+test alloc_nospace_firstfit PASSED
+ (allocation is too big to fit for firstfit policy)
+
+
+**********************************************************************
+
+Test writeable
+write to a chunk from Mem_Alloc and check the value
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/writeable
+
+
+test writeable PASSED
+ (write to a chunk from Mem_Alloc and check the value)
+
+
+**********************************************************************
+
+Test free_simple
+a simple allocation followed by a free
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/free_simple
+
+
+test free_simple PASSED
+ (a simple allocation followed by a free)
+
+
+**********************************************************************
+
+Test free_null
+free a NULL pointer
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/free_null
+
+
+test free_null PASSED
+ (free a NULL pointer)
+
+
+**********************************************************************
+
+Test free_unallocated
+free a pointer which does not point to beginning of a block
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/free_unallocated
+
+
+test free_unallocated PASSED
+ (free a pointer which does not point to beginning of a block)
+
+
+**********************************************************************
+
+Test align_bestfit
+first pointer returned is 4-byte aligned with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align_bestfit
+
+
+test align_bestfit PASSED
+ (first pointer returned is 4-byte aligned with bestfit policy)
+
+
+**********************************************************************
+
+Test align_worstfit
+first pointer returned is 4-byte aligned with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align_worstfit
+
+
+test align_worstfit PASSED
+ (first pointer returned is 4-byte aligned with worstfit policy)
+
+
+**********************************************************************
+
+Test align_firstfit
+first pointer returned is 4-byte aligned with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align_firstfit
+
+
+test align_firstfit PASSED
+ (first pointer returned is 4-byte aligned with firstfit policy)
+
+
+**********************************************************************
+
+Test alloc2_bestfit
+a few allocations in multiples of 4 bytes for bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc2_bestfit
+
+
+test alloc2_bestfit PASSED
+ (a few allocations in multiples of 4 bytes for bestfit policy)
+
+
+**********************************************************************
+
+Test alloc2_worstfit
+a few allocations in multiples of 4 bytes for worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc2_worstfit
+
+
+test alloc2_worstfit PASSED
+ (a few allocations in multiples of 4 bytes for worstfit policy)
+
+
+**********************************************************************
+
+Test alloc2_firstfit
+a few allocations in multiples of 4 bytes for firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc2_firstfit
+
+
+test alloc2_firstfit PASSED
+ (a few allocations in multiples of 4 bytes for firstfit policy)
+
+
+**********************************************************************
+
+Test alloc2_nospace_bestfit
+second allocation is too big to fit for bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc2_nospace_bestfit
+
+
+test alloc2_nospace_bestfit PASSED
+ (second allocation is too big to fit for bestfit policy)
+
+
+**********************************************************************
+
+Test alloc2_nospace_worstfit
+second allocation is too big to fit for worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc2_nospace_worstfit
+
+
+test alloc2_nospace_worstfit PASSED
+ (second allocation is too big to fit for worstfit policy)
+
+
+**********************************************************************
+
+Test alloc2_nospace_firstfit
+second allocation is too big to fit for firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc2_nospace_firstfit
+
+
+test alloc2_nospace_firstfit PASSED
+ (second allocation is too big to fit for firstfit policy)
+
+
+**********************************************************************
+
+Test free2
+a few allocations in multiples of 4 bytes followed by frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/free2
+
+
+test free2 PASSED
+ (a few allocations in multiples of 4 bytes followed by frees)
+
+
+**********************************************************************
+
+Test align2_bestfit
+a few allocations in multiples of 4 bytes checked for alignment with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align2_bestfit
+
+
+test align2_bestfit PASSED
+ (a few allocations in multiples of 4 bytes checked for alignment with bestfit policy)
+
+
+**********************************************************************
+
+Test align2_worstfit
+a few allocations in multiples of 4 bytes checked for alignment with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align2_worstfit
+
+
+test align2_worstfit PASSED
+ (a few allocations in multiples of 4 bytes checked for alignment with worstfit policy)
+
+
+**********************************************************************
+
+Test align2_firstfit
+a few allocations in multiples of 4 bytes checked for alignment with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align2_firstfit
+
+
+test align2_firstfit PASSED
+ (a few allocations in multiples of 4 bytes checked for alignment with firstfit policy)
+
+
+**********************************************************************
+
+Test alloc3_bestfit
+many odd sized allocations for bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc3_bestfit
+
+
+test alloc3_bestfit PASSED
+ (many odd sized allocations for bestfit policy)
+
+
+**********************************************************************
+
+Test alloc3_worstfit
+many odd sized allocations for worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc3_worstfit
+
+
+test alloc3_worstfit PASSED
+ (many odd sized allocations for worstfit policy)
+
+
+**********************************************************************
+
+Test alloc3_firstfit
+many odd sized allocations for firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/alloc3_firstfit
+
+
+test alloc3_firstfit PASSED
+ (many odd sized allocations for firstfit policy)
+
+
+**********************************************************************
+
+Test free3
+many odd sized allocations and interspersed frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/free3
+
+
+test free3 PASSED
+ (many odd sized allocations and interspersed frees)
+
+
+**********************************************************************
+
+Test align3_bestfit
+many odd sized allocations checked for alignment with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align3_bestfit
+
+
+test align3_bestfit PASSED
+ (many odd sized allocations checked for alignment with bestfit policy)
+
+
+**********************************************************************
+
+Test align3_worstfit
+many odd sized allocations checked for alignment with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align3_worstfit
+
+
+test align3_worstfit PASSED
+ (many odd sized allocations checked for alignment with worstfit policy)
+
+
+**********************************************************************
+
+Test align3_firstfit
+many odd sized allocations checked for alignment with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/align3_firstfit
+
+
+test align3_firstfit PASSED
+ (many odd sized allocations checked for alignment with firstfit policy)
+
+
+**********************************************************************
+
+Test bestfit
+Check for bestfit implementation
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/bestfit
+
+
+test bestfit PASSED
+ (Check for bestfit implementation)
+
+
+**********************************************************************
+
+Test worstfit
+Check for worstfit implementation
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/worstfit
+
+
+test worstfit PASSED
+ (Check for worstfit implementation)
+
+
+**********************************************************************
+
+Test firstfit
+Check for firstfit implementation
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/firstfit
+
+
+test firstfit PASSED
+ (Check for firstfit implementation)
+
+
+**********************************************************************
+
+Test coalesce1_bestfit
+check for coalesce free space with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce1_bestfit
+
+
+test coalesce1_bestfit PASSED
+ (check for coalesce free space with bestfit policy)
+
+
+**********************************************************************
+
+Test coalesce2_bestfit
+check for coalesce free space with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce2_bestfit
+
+
+test coalesce2_bestfit PASSED
+ (check for coalesce free space with bestfit policy)
+
+
+**********************************************************************
+
+Test coalesce3_bestfit
+check for coalesce free space with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce3_bestfit
+
+
+test coalesce3_bestfit PASSED
+ (check for coalesce free space with bestfit policy)
+
+
+**********************************************************************
+
+Test coalesce4_bestfit
+check for coalesce free space with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce4_bestfit
+
+
+test coalesce4_bestfit PASSED
+ (check for coalesce free space with bestfit policy)
+
+
+**********************************************************************
+
+Test coalesce5_bestfit
+check for coalesce free space (first chunk) with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce5_bestfit
+
+
+test coalesce5_bestfit PASSED
+ (check for coalesce free space (first chunk) with bestfit policy)
+
+
+**********************************************************************
+
+Test coalesce6_bestfit
+check for coalesce free space (last chunk) with bestfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce6_bestfit
+
+
+test coalesce6_bestfit PASSED
+ (check for coalesce free space (last chunk) with bestfit policy)
+
+
+**********************************************************************
+
+Test coalesce1_worstfit
+check for coalesce free space with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce1_worstfit
+
+
+test coalesce1_worstfit PASSED
+ (check for coalesce free space with worstfit policy)
+
+
+**********************************************************************
+
+Test coalesce2_worstfit
+check for coalesce free space with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce2_worstfit
+
+
+test coalesce2_worstfit PASSED
+ (check for coalesce free space with worstfit policy)
+
+
+**********************************************************************
+
+Test coalesce3_worstfit
+check for coalesce free space with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce3_worstfit
+
+
+test coalesce3_worstfit PASSED
+ (check for coalesce free space with worstfit policy)
+
+
+**********************************************************************
+
+Test coalesce4_worstfit
+check for coalesce free space with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce4_worstfit
+
+
+test coalesce4_worstfit PASSED
+ (check for coalesce free space with worstfit policy)
+
+
+**********************************************************************
+
+Test coalesce5_worstfit
+check for coalesce free space (first chunk) with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce5_worstfit
+
+
+test coalesce5_worstfit PASSED
+ (check for coalesce free space (first chunk) with worstfit policy)
+
+
+**********************************************************************
+
+Test coalesce6_worstfit
+check for coalesce free space (last chunk) with worstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce6_worstfit
+
+
+test coalesce6_worstfit PASSED
+ (check for coalesce free space (last chunk) with worstfit policy)
+
+
+**********************************************************************
+
+Test coalesce1_firstfit
+check for coalesce free space with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce1_firstfit
+
+
+test coalesce1_firstfit PASSED
+ (check for coalesce free space with firstfit policy)
+
+
+**********************************************************************
+
+Test coalesce2_firstfit
+check for coalesce free space with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce2_firstfit
+
+
+test coalesce2_firstfit PASSED
+ (check for coalesce free space with firstfit policy)
+
+
+**********************************************************************
+
+Test coalesce3_firstfit
+check for coalesce free space with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce3_firstfit
+
+
+test coalesce3_firstfit PASSED
+ (check for coalesce free space with firstfit policy)
+
+
+**********************************************************************
+
+Test coalesce4_firstfit
+check for coalesce free space with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce4_firstfit
+
+
+test coalesce4_firstfit PASSED
+ (check for coalesce free space with firstfit policy)
+
+
+**********************************************************************
+
+Test coalesce5_firstfit
+check for coalesce free space (first chunk) with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce5_firstfit
+
+
+test coalesce5_firstfit PASSED
+ (check for coalesce free space (first chunk) with firstfit policy)
+
+
+**********************************************************************
+
+Test coalesce6_firstfit
+check for coalesce free space (last chunk) with firstfit policy
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/tests/coalesce6_firstfit
+
+
+test coalesce6_firstfit PASSED
+ (check for coalesce free space (last chunk) with firstfit policy)
+
+
+**********************************************************************
+
+Test random1_bestfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 1000 1 0
+test random1_bestfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random1_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random2_bestfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 1000 1 0
+test random2_bestfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random2_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random3_bestfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 100000 1 0
+test random3_bestfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random3_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random4_bestfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 1 500000 1 0
+test random4_bestfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random4_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random1_worstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 1000 1 1
+test random1_worstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random1_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random2_worstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 1000 1 1
+test random2_worstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random2_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random3_worstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 100000 1 1
+test random3_worstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random3_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random4_worstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 1 500000 1 1
+test random4_worstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random4_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random1_firstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 1000 1 2
+test random1_firstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random1_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random2_firstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 1000 1 2
+test random2_firstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random2_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random3_firstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 0 100000 1 2
+test random3_firstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random3_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random4_firstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 1 500000 1 2
+test random4_firstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+test random4_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+
+**********************************************************************
+
+Test random5_bestfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 1 20000000 0 0
+random: random.c:84: main: Assertion `ptr[slot] != ((void *)0)' failed.
+test random5_bestfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+
+test random5_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+
+**********************************************************************
+
+Test random5_worstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 1 20000000 0 1
+random: random.c:73: main: Assertion `Mem_Free(ptr[slot]) == 0' failed.
+test random5_worstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+
+test random5_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+
+**********************************************************************
+
+Test random5_firstfit
+psuedo-random sequence of allocs and frees
+
+**********************************************************************
+/u/c/s/cs354-3/ta/p3/UserScripts/random 1 20000000 0 2
+random: random.c:84: main: Assertion `ptr[slot] != ((void *)0)' failed.
+test random5_firstfit FAILED
+Traceback (most recent call last):
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 183, in run_test
+    test.run()
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/rand.py", line 14, in run
+    status = 0)
+  File "/afs/cs.wisc.edu/p/course/cs354-remzi/ta/p3/UserScripts/test.py", line 112, in runexe
+    "Expected " + str(status) + " got " + str(child.returncode))
+Failure: /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+
+test random5_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+
+**********************************************************************
+
+Test prohibit
+check for prohibited library functions
+
+**********************************************************************
+objdump --dynamic-syms libmem.so
+
+
+test prohibit PASSED
+ (check for prohibited library functions)
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build project using make)
+
+test init_bestfit PASSED
+ (call Mem_Init with size = 1 page and policy = P_BESTFIT)
+
+test init_worstfit PASSED
+ (call Mem_Init with size = 5 pages and policy = P_WORSTFIT)
+
+test init_firstfit PASSED
+ (call Mem_Init with size = 10 pages and policy = P_FIRSTFIT)
+
+test init_pageround PASSED
+ (init that should be rounded up to 1 page)
+
+test init_zerosize PASSED
+ (call Mem_Init with zero size)
+
+test init_negsize PASSED
+ (call Mem_Init with negative size)
+
+test init_negpolicy PASSED
+ (call Mem_Init with a negative policy)
+
+test init_badpolicy PASSED
+ (call Mem_Init with an invalid positive policy)
+
+test init_twice PASSED
+ (call Mem_Init twice)
+
+test alloc_bestfit PASSED
+ (a simple 8 byte allocation with bestfit policy)
+
+test alloc_worstfit PASSED
+ (a simple 8 byte allocation with worstfit policy)
+
+test alloc_firstfit PASSED
+ (a simple 8 byte allocation with firstfit policy)
+
+test alloc_nospace_bestfit PASSED
+ (allocation is too big to fit for bestfit policy)
+
+test alloc_nospace_worstfit PASSED
+ (allocation is too big to fit for worstfit policy)
+
+test alloc_nospace_firstfit PASSED
+ (allocation is too big to fit for firstfit policy)
+
+test writeable PASSED
+ (write to a chunk from Mem_Alloc and check the value)
+
+test free_simple PASSED
+ (a simple allocation followed by a free)
+
+test free_null PASSED
+ (free a NULL pointer)
+
+test free_unallocated PASSED
+ (free a pointer which does not point to beginning of a block)
+
+test align_bestfit PASSED
+ (first pointer returned is 4-byte aligned with bestfit policy)
+
+test align_worstfit PASSED
+ (first pointer returned is 4-byte aligned with worstfit policy)
+
+test align_firstfit PASSED
+ (first pointer returned is 4-byte aligned with firstfit policy)
+
+test alloc2_bestfit PASSED
+ (a few allocations in multiples of 4 bytes for bestfit policy)
+
+test alloc2_worstfit PASSED
+ (a few allocations in multiples of 4 bytes for worstfit policy)
+
+test alloc2_firstfit PASSED
+ (a few allocations in multiples of 4 bytes for firstfit policy)
+
+test alloc2_nospace_bestfit PASSED
+ (second allocation is too big to fit for bestfit policy)
+
+test alloc2_nospace_worstfit PASSED
+ (second allocation is too big to fit for worstfit policy)
+
+test alloc2_nospace_firstfit PASSED
+ (second allocation is too big to fit for firstfit policy)
+
+test free2 PASSED
+ (a few allocations in multiples of 4 bytes followed by frees)
+
+test align2_bestfit PASSED
+ (a few allocations in multiples of 4 bytes checked for alignment with bestfit policy)
+
+test align2_worstfit PASSED
+ (a few allocations in multiples of 4 bytes checked for alignment with worstfit policy)
+
+test align2_firstfit PASSED
+ (a few allocations in multiples of 4 bytes checked for alignment with firstfit policy)
+
+test alloc3_bestfit PASSED
+ (many odd sized allocations for bestfit policy)
+
+test alloc3_worstfit PASSED
+ (many odd sized allocations for worstfit policy)
+
+test alloc3_firstfit PASSED
+ (many odd sized allocations for firstfit policy)
+
+test free3 PASSED
+ (many odd sized allocations and interspersed frees)
+
+test align3_bestfit PASSED
+ (many odd sized allocations checked for alignment with bestfit policy)
+
+test align3_worstfit PASSED
+ (many odd sized allocations checked for alignment with worstfit policy)
+
+test align3_firstfit PASSED
+ (many odd sized allocations checked for alignment with firstfit policy)
+
+test bestfit PASSED
+ (Check for bestfit implementation)
+
+test worstfit PASSED
+ (Check for worstfit implementation)
+
+test firstfit PASSED
+ (Check for firstfit implementation)
+
+test coalesce1_bestfit PASSED
+ (check for coalesce free space with bestfit policy)
+
+test coalesce2_bestfit PASSED
+ (check for coalesce free space with bestfit policy)
+
+test coalesce3_bestfit PASSED
+ (check for coalesce free space with bestfit policy)
+
+test coalesce4_bestfit PASSED
+ (check for coalesce free space with bestfit policy)
+
+test coalesce5_bestfit PASSED
+ (check for coalesce free space (first chunk) with bestfit policy)
+
+test coalesce6_bestfit PASSED
+ (check for coalesce free space (last chunk) with bestfit policy)
+
+test coalesce1_worstfit PASSED
+ (check for coalesce free space with worstfit policy)
+
+test coalesce2_worstfit PASSED
+ (check for coalesce free space with worstfit policy)
+
+test coalesce3_worstfit PASSED
+ (check for coalesce free space with worstfit policy)
+
+test coalesce4_worstfit PASSED
+ (check for coalesce free space with worstfit policy)
+
+test coalesce5_worstfit PASSED
+ (check for coalesce free space (first chunk) with worstfit policy)
+
+test coalesce6_worstfit PASSED
+ (check for coalesce free space (last chunk) with worstfit policy)
+
+test coalesce1_firstfit PASSED
+ (check for coalesce free space with firstfit policy)
+
+test coalesce2_firstfit PASSED
+ (check for coalesce free space with firstfit policy)
+
+test coalesce3_firstfit PASSED
+ (check for coalesce free space with firstfit policy)
+
+test coalesce4_firstfit PASSED
+ (check for coalesce free space with firstfit policy)
+
+test coalesce5_firstfit PASSED
+ (check for coalesce free space (first chunk) with firstfit policy)
+
+test coalesce6_firstfit PASSED
+ (check for coalesce free space (last chunk) with firstfit policy)
+
+test random1_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random2_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random3_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random4_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random1_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random2_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random3_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random4_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random1_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random2_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random3_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random4_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -11
+
+test random5_bestfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+test random5_worstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+test random5_firstfit FAILED
+ (psuedo-random sequence of allocs and frees)
+ /u/c/s/cs354-3/ta/p3/UserScripts/random returned incorrect status code. Expected 0 got -6
+
+test prohibit PASSED
+ (check for prohibited library functions)
+
+Passed 62 of 77 tests.
+Overall 62 of 77

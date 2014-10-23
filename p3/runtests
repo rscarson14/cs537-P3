@@ -1,0 +1,5 @@
+#!/bin/bash
+base=~cs354-3/ta/p3/UserScripts
+python $base/runtests.py --test-path $base $@ | tee -i runtests.log
+$base/findmygrade.pl
+exit $?

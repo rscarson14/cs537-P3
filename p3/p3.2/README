@@ -1,0 +1,19 @@
+Author: R. Scott Carson  906-493-7395
+cs354-3 Project 3
+login: rcarson
+
+Files: mem.c, mem.h, Makefile, README
+
+
+This project dealt with implementing a memory allocator and exploring three
+different allocation methods.  I chose to implement my memory allocator 
+using header and footer spaces that contained the size of the block and if
+it was free or allocated.  After reading the book, I employed the use of 
+some macros for common calculations pertaining to the headers/footers. This
+method makes the code easier to read and shorter.  For the first-fit policy,
+I traversed the list of blocks, checking if they were free and could hold
+the requested block size; if they could I returned a pointer to that block.
+For both worst-fit and best-fit, I traversed the entire list searching for 
+the best fit (or worst fit), and then(if one was found) returned a pointer 
+to the block after the entire list was traversed.  Free works the same for 
+each policy, as does my coalesce function.  
