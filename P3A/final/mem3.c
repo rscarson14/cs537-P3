@@ -9,10 +9,7 @@
 #include <string.h>
 #include "mem.h"
 
-
-#define SIZE_256 256
-#define SIZE_80  80
-#define SIZE_16  16
+#define ALIGN_SIZE 8
 #define HDR_SIZE 16
 #define FTR_SIZE 8
 
@@ -79,7 +76,7 @@ int Mem_Init(int size){
     num_pages++;
   }
   region_size = num_pages*pg_size;
-  printf("Intitial region size = %ld\n", region_size);
+  //printf("Intitial region size = %ld\n", region_size);
   
   // Map the required amount of memory
   fd_zero = open("/dev/zero", O_RDWR);
@@ -109,7 +106,7 @@ int Mem_Init(int size){
   //Initialize the first header and prologue
   fhead = mem_ptr;
   epi_ptr = mem_ptr + region_size;
-  printf("epi_ptr = %p\n", epi_ptr);
+  //printf("epi_ptr = %p\n", epi_ptr);
 
   PUT(HDR_S_A(epi_ptr), COMB_S_A(0,1)); // 8 bytes
   PUT(HDR_TEST(epi_ptr), TEST_VAL);
@@ -140,7 +137,7 @@ void insertBlock(void *bp, int size){
 
   // Only split the chunk if there will be enough for another block (at least 16 bytes +
   // hdr and ftr.
-  if((chunk_size - size) >= (SIZE_16 + FTR_SIZE + HDR_SIZE)){
+  if((chunk_size - size) >= (ALIGN_SIZE + FTR_SIZE + HDR_SIZE)){
     // printf("Splitting\n");
     PUT(HDR_TEST(bp), TEST_VAL);
     PUT(HDR_S_A(bp), COMB_S_A(size - HDR_SIZE - FTR_SIZE, 1));
@@ -169,7 +166,7 @@ void* Mem_Alloc(int size){
   void *bp;
   int adjusted_size;
 
-  if( size <= 0 || (size != SIZE_16 && size != SIZE_80 && size != SIZE_256)){
+  if( size <= 0 ){
     perror("invalid allocation size\n");
     goto error;
   }
@@ -177,6 +174,10 @@ void* Mem_Alloc(int size){
   if(fhead == NULL){
     perror("Memory not initialized");
     goto error;
+  }
+
+  if(size % ALIGN_SIZE != 0){
+    size = ((size/ALIGN_SIZE) + 1) * ALIGN_SIZE;
   }
 
   //printf("Mem_Alloc: valid size\n");
@@ -205,11 +206,11 @@ void* coalesce(void* ptr){
   size = GET_SIZE(HDR_S_A(ptr)) + HDR_SIZE + FTR_SIZE;
 
   if(prev_alloc && next_alloc){
-    printf("no coalesce\n");
+    //printf("no coalesce\n");
     available_mem += (HDR_SIZE + FTR_SIZE);
   }
   else if(!prev_alloc && next_alloc){
-    printf("coalesce up\n");
+    //printf("coalesce up\n");
     size += GET_SIZE(HDR_S_A(PREV_B(ptr)));
     PUT(FTR_S_A(ptr), COMB_S_A(size, 0));
     PUT(HDR_S_A(PREV_B(ptr)), COMB_S_A(size, 0));
@@ -217,14 +218,14 @@ void* coalesce(void* ptr){
     available_mem += (HDR_SIZE + FTR_SIZE);
   }
   else if(prev_alloc && !next_alloc){
-    printf("coalesce down\n");
+    // printf("coalesce down\n");
     size += GET_SIZE(HDR_S_A(NEXT_B(ptr)));
     PUT(HDR_S_A(ptr), COMB_S_A(size, 0));
     PUT(FTR_S_A(ptr), COMB_S_A(size, 0));
     available_mem += (HDR_SIZE + FTR_SIZE);
   }
   else{
-    printf("coalesce both\n");
+    // printf("coalesce both\n");
     size += (GET_SIZE(HDR_S_A(PREV_B(ptr))) + GET_SIZE(HDR_S_A(NEXT_B(ptr))));
     PUT(HDR_S_A(PREV_B(ptr)), COMB_S_A(size, 0));
     PUT(FTR_S_A(NEXT_B(ptr)), COMB_S_A(size, 0));
@@ -281,7 +282,7 @@ void Mem_Dump(){
   
   void *bp;
 
-  printf("in mem_dump\n");
+  //printf("in mem_dump\n");
   if(fhead == NULL){
     perror("Memory not initialized");
     return;
@@ -293,7 +294,7 @@ void Mem_Dump(){
       printf("Addr: %p, size: %ld\n", bp, GET_SIZE(HDR_S_A(bp)));
     }
   }
-  printf("mem_dump() end\n");
+  //printf("mem_dump() end\n");
 
   return;
 }

@@ -1,0 +1,32 @@
+Name: R. Scott Carson 
+CSL-ID: rcarson
+Name:
+CSL-ID:
+
+Linux-Implementation Details:
+
+libmem1: For workload1 (16 byte allocations, bitmapping will be an effective solution
+     that will save a lot of space. I am going to assume memory is broken into 
+     16 byte chinks and will have an array of chars where each bit is associated
+     with a 16-byte chunk. A 0 signifies that it is not being used and a 1
+     signifies that it is being used. This will greatly reduce the complexity of
+     the allocation code
+
+libmem2:For workload 2 I am implementing a first fit allocator that can Free and Coalesce in 
+     constant time. Each block of memory has a 16-byte header, where the first 8-bytes is 
+     a test number to ensure I allocated the chunk, and the second 8-bytes is a combination
+     of the size and whether or not the block is allocated. Each Block also has an 8-byte
+     footer that contains the size and allocation bit as well. The final 8-bytes in the 
+     requested memory region is an epilogue footer that contains a size of 0 and an
+     an allocation bit as one. This makes it easy to handle edge cases.
+
+libmem2: For workload 3 I am also implementing a first fit allocator that can Free and Coalesce in 
+     constant time. Each block of memory has a 16-byte header, where the first 8-bytes is 
+     a test number to ensure I allocated the chunk, and the second 8-bytes is a combination
+     of the size and whether or not the block is allocated. Each Block also has an 8-byte
+     footer that contains the size and allocation bit as well. The final 8-bytes in the 
+     requested memory region is an epilogue footer that contains a size of 0 and an
+     an allocation bit as one. This makes it easy to handle edge cases.
+
+XV6-Implementation Details:
+

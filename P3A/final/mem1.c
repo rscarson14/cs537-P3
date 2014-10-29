@@ -13,7 +13,7 @@
 #define SHIFTL(i,s) (i << s)
 #define SHIFTR(i,s) (i >> s)
 
-void* mem_ptr;
+void* mem_ptr = NULL;
 long region_size;
 unsigned char* m_bitmap;
 unsigned int reserved_bytes;
@@ -29,6 +29,10 @@ int Mem_Init(int size){
     return -1;
   }
 
+  if(mem_ptr != NULL){
+    return -1;
+  }
+
   // Align size to page
   pg_size = sysconf(_SC_PAGESIZE);
   num_pages = size/pg_size;
@@ -37,7 +41,7 @@ int Mem_Init(int size){
     num_pages++;
   }
   region_size = num_pages*pg_size;
-  printf("Intitial region size = %ld\n", region_size);
+  //  printf("Intitial region size = %ld\n", region_size);
 
   // Map the required amount of memory
   fd_zero = open("/dev/zero", O_RDWR);
@@ -65,28 +69,28 @@ int Mem_Init(int size){
 
   // First I see how many bytes I will need to satisfy the entire request
   reserved_bytes = region_size / (BLOCK_SIZE * 8);
-  printf("initial reserved bytes = %d\n", reserved_bytes);
+  //printf("initial reserved bytes = %d\n", reserved_bytes);
 
   // Then I recalculate the region_size as if I had max space (e.g. no header)
   region_size = region_size - reserved_bytes;
-  printf("final region size = %ld\n", region_size);
+  //printf("final region size = %ld\n", region_size);
 
-  printf("*Init* mem_ptr = %p\n", mem_ptr);
+  //printf("*Init* mem_ptr = %p\n", mem_ptr);
   m_bitmap = (unsigned char*) mem_ptr;
   avail_mem = region_size;
   mem_ptr += reserved_bytes;
   // Finally I recalulate how many reserved bytes I'll need. This causes some waste,
   // but not too much.
   //  reserved_bytes = region_size / (BLOCK_SIZE * 8);
-  printf("final reserved bytes = %d\n", reserved_bytes);
+  //printf("final reserved bytes = %d\n", reserved_bytes);
   total_bits = region_size/BLOCK_SIZE;
-  printf("total_bits = %d\n", total_bits);
+  //printf("total_bits = %d\n", total_bits);
   // if((region_size % (BLOCK_SIZE * 8)) > 0) { reserved_bytes++; }
-  printf("adjusted final region size = %ld\n", region_size);  
+  //printf("adjusted final region size = %ld\n", region_size);  
  
   // I allocate the bitmap array here and increment the main mem_ptr to point to
   // the end of the array.
-  printf("*Init* mem_ptr = %p\n", mem_ptr);
+  //printf("*Init* mem_ptr = %p\n", mem_ptr);
   memset(m_bitmap, 0, reserved_bytes);
 
   return 0;
