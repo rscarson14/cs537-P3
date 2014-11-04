@@ -207,7 +207,7 @@ loaduvm(pde_t *pgdir, char *addr, struct inode *ip, uint offset, uint sz)
   uint i, pa, n;
   pte_t *pte;
   
-  cprintf("loaduvm: addr = %p, mod PGSIZE = %d\n", addr, (uint)addr % PGSIZE);
+  //cprintf("loaduvm: addr = %p, mod PGSIZE = %d\n", addr, (uint)addr % PGSIZE);
 
   if((uint)addr % PGSIZE != 0)
     panic("loaduvm: addr must be page aligned");
@@ -299,12 +299,12 @@ freevm(pde_t *pgdir)
 // Given a parent process's page table, create a copy
 // of it for a child.
 pde_t*
-copyuvm(pde_t *pgdir, uint sz)
+copyuvm(pde_t *pgdir, uint sz, uint s_sz)
 {
   pde_t *d;
   pte_t *pte;
   uint pa, i, stack_size;
-  char *mem, *stack_ptr;
+  char *mem;
 
   if((d = setupkvm()) == 0)
     return 0;
@@ -324,9 +324,8 @@ copyuvm(pde_t *pgdir, uint sz)
   }
 
   // We need to loop again to copy the stack over
-  stack_size = proc->s_sz;
-  for(i = PGSIZE; i < stack_size; i+= PGSIZE){
-    stack_ptr = (char *) (USERTOP - stack_size + i);
+  stack_size = s_sz;
+  for(i = stack_size; i < USERTOP; i+= PGSIZE){
     if((pte = walkpgdir(pgdir, (void*)i, 0)) == 0)
       panic("copyuvm: pte should exist");
     if(!(*pte & PTE_P))
@@ -335,7 +334,7 @@ copyuvm(pde_t *pgdir, uint sz)
     if((mem = kalloc()) == 0)
       goto bad;
     memmove(mem, (char*)pa, PGSIZE);
-    if(mappages(d, (void*)stack_ptr, PGSIZE, PADDR(mem), PTE_W|PTE_U) < 0)
+    if(mappages(d, (void*)i, PGSIZE, PADDR(mem), PTE_W|PTE_U) < 0)
       goto bad;
   }
   

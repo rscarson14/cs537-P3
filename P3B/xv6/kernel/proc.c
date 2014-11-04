@@ -84,14 +84,14 @@ userinit(void)
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
   inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);
-  p->sz = PGSIZE;
+  p->sz = PGSIZE; // CHANGED
   memset(p->tf, 0, sizeof(*p->tf));
   p->tf->cs = (SEG_UCODE << 3) | DPL_USER;
   p->tf->ds = (SEG_UDATA << 3) | DPL_USER;
   p->tf->es = p->tf->ds;
   p->tf->ss = p->tf->ds;
   p->tf->eflags = FL_IF;
-  p->tf->esp = PGSIZE;
+  p->tf->esp = PGSIZE; // CHANGED
   p->tf->eip = 0;  // beginning of initcode.S
 
   safestrcpy(p->name, "initcode", sizeof(p->name));
@@ -108,8 +108,12 @@ growproc(int n)
 {
   uint sz;
   
-  sz = proc->sz;
+  sz = proc->sz; // CHANGED
+  
   if(n > 0){
+    if(sz + n > proc->s_sz - PGSIZE){ // CHANGED
+      return -1;
+    }
     if((sz = allocuvm(proc->pgdir, sz, sz + n)) == 0)
       return -1;
   } else if(n < 0){
@@ -130,19 +134,21 @@ fork(void)
   int i, pid;
   struct proc *np;
 
+  //cprintf("In fork...\n");
+
   // Allocate process.
   if((np = allocproc()) == 0)
     return -1;
 
   // Copy process state from p.
-  if((np->pgdir = copyuvm(proc->pgdir, proc->sz)) == 0){
+  if((np->pgdir = copyuvm(proc->pgdir, proc->sz, proc->s_sz)) == 0){ // CHANGED
     kfree(np->kstack);
     np->kstack = 0;
     np->state = UNUSED;
     return -1;
   }
   np->sz = proc->sz;
-  np->s_sz = proc->s_sz;
+  np->s_sz = proc->s_sz; // CHANGED
   np->parent = proc;
   *np->tf = *proc->tf;
 
@@ -157,6 +163,7 @@ fork(void)
   pid = np->pid;
   np->state = RUNNABLE;
   safestrcpy(np->name, proc->name, sizeof(proc->name));
+  // cprintf("Exiting fork...\n");
   return pid;
 }
 

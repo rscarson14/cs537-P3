@@ -11,13 +11,13 @@ exec(char *path, char **argv)
 {
   char *s, *last;
   int i, off;
-  uint argc, sz, s_top, sp, ustack[3+MAXARG+1];
+  uint argc, sz, s_sz, sp, ustack[3+MAXARG+1];
   struct elfhdr elf;
   struct inode *ip;
   struct proghdr ph;
   pde_t *pgdir, *oldpgdir;
   
-  cprintf("in exec...\n");
+  //cprintf("in exec...\n");
 
   if((ip = namei(path)) == 0)
     return -1;
@@ -34,7 +34,7 @@ exec(char *path, char **argv)
     goto bad;
 
   // Load program into memory.
-  sz = PGSIZE;
+  sz = PGSIZE; // CHANGED (a and b)
   for(i=0, off=elf.phoff; i<elf.phnum; i++, off+=sizeof(ph)){
     if(readi(ip, (char*)&ph, off, sizeof(ph)) != sizeof(ph))
       goto bad;
@@ -44,7 +44,7 @@ exec(char *path, char **argv)
       goto bad;
     if((sz = allocuvm(pgdir, sz, ph.va + ph.memsz)) == 0)
       goto bad;
-    cprintf("size after allocuvm = %d\n", sz);
+    //cprintf("size after allocuvm = %d\n", sz);
     if(loaduvm(pgdir, (char*)ph.va, ip, ph.offset, ph.filesz) < 0)
       goto bad;
   }
@@ -52,13 +52,13 @@ exec(char *path, char **argv)
   ip = 0;
 
   // Allocate a one-page stack at the next page boundary
-  sz= PGROUNDUP(sz);
-  // To allocate a one page stack at the bottom of userspace 
-  if((s_top = allocuvm(pgdir, USERTOP-PGSIZE, USERTOP)) == 0)
+  s_sz = USERTOP - PGSIZE;// CHANGED (b)
+    // allocate a one page stack at the bottom of userspace 
+  if((sp = allocuvm(pgdir, s_sz, USERTOP)) == 0)
     goto bad;
-
+  
+  
   // Push argument strings, prepare rest of stack in ustack.
-  sp = s_top;
   for(argc = 0; argv[argc]; argc++) {
     if(argc >= MAXARG)
       goto bad;
@@ -88,13 +88,16 @@ exec(char *path, char **argv)
   oldpgdir = proc->pgdir;
   proc->pgdir = pgdir;
   proc->sz = sz;
-  proc->s_sz = 2*PGSIZE;
+  //cprintf("s_sz = %p\n", (void *) s_sz);
+  proc->s_sz = s_sz; // CHANGED (b)
+  
+  //cprintf("in exec: elf.entry = %d\n", elf.entry);
   proc->tf->eip = elf.entry;  // main
   proc->tf->esp = sp;
   switchuvm(proc);
   freevm(oldpgdir);
 
-  cprintf("exiting exec...\n");
+  //cprintf("exiting exec...\n");
   return 0;
 
  bad:

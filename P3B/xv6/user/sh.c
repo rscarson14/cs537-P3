@@ -146,6 +146,8 @@ main(void)
 {
   static char buf[100];
   int fd;
+
+  printf(1, "Hello Shell!\n");
   
   // Assumes three file descriptors open.
   while((fd = open("console", O_RDWR)) >= 0){

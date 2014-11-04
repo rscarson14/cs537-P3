@@ -17,8 +17,20 @@
 int
 fetchint(struct proc *p, uint addr, int *ip)
 {
-  if(addr >= p->sz || addr+4 > p->sz)
+  if((addr < p->s_sz && (addr >= p->sz || addr+4 > p->sz)) || 
+     (addr >= USERTOP) ||
+     (addr+4 > USERTOP)){
+      return -1;
+  }
+
+  // Make sure the address is not in the first invalid page.
+  // We also want to make sure we are not faulting init, which
+  // has PID=1
+  if(p->pid != 1 && addr<PGSIZE){
+    cprintf("Seg fault!\n");
     return -1;
+  }
+
   *ip = *(int*)(addr);
   return 0;
 }
@@ -31,10 +43,26 @@ fetchstr(struct proc *p, uint addr, char **pp)
 {
   char *s, *ep;
 
-  if(addr >= p->sz)
+  if((addr < p->s_sz && addr >= p->sz) || 
+     (addr >= USERTOP)){
     return -1;
+  }
+
+  // Check for invalid first page
+  if(p->pid != 1 && addr<PGSIZE){
+    cprintf("Seg fault!\n");
+    return -1;
+  }
+
+  // CHANGED both
   *pp = (char*)addr;
-  ep = (char*)p->sz;
+  if(addr < p->s_sz){
+    ep = (char *)p->sz;
+  }
+  else{
+    ep = (char *) USERTOP;
+  }
+
   for(s = *pp; s < ep; s++)
     if(*s == 0)
       return s - *pp;
@@ -56,10 +84,21 @@ argptr(int n, char **pp, int size)
 {
   int i;
   
-  if(argint(n, &i) < 0)
+  if(argint(n, &i) < 0){
     return -1;
-  if((uint)i >= proc->sz || (uint)i+size > proc->sz)
+  }
+  
+  if((((uint)i < proc->s_sz && ((uint)i >= proc->sz || (uint)i + size > proc->sz))) ||
+     ((uint)i >= USERTOP) ||
+     ((uint)i + size > USERTOP)){
     return -1;
+  }
+
+  if((uint)i < PGSIZE && proc->pid != 1){
+    cprintf("Seg fault!\n");
+    return -1;
+  }
+
   *pp = (char*)i;
   return 0;
 }

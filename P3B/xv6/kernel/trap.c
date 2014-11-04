@@ -75,7 +75,27 @@ trap(struct trapframe *tf)
             cpu->id, tf->cs, tf->eip);
     lapiceoi();
     break;
-   
+
+  case T_PGFLT: // CHANGED (b)
+    //cprintf("T_PGFLT for proc:%s, addr: %p\n", proc->name, rcr2());
+    ;
+    uint bad_addr = tf->esp;
+    //cprintf("bad_addr = %p\n", (void*) bad_addr);
+    if(bad_addr <= proc->s_sz){
+      if(proc->sz < proc->s_sz - PGSIZE){
+	// Now we are going to grow the stack by one page.
+
+	if((allocuvm(proc->pgdir, proc->s_sz - PGSIZE, proc->s_sz)) != 0){
+	  proc->s_sz = proc->s_sz - PGSIZE;
+	  lapiceoi();
+	  break;
+	}
+      }
+    }
+    kill(proc->pid);
+    //lapiceoi();
+    break;
+
   default:
     if(proc == 0 || (tf->cs&3) == 0){
       // In kernel, it must be our mistake.
